@@ -1227,7 +1227,8 @@ the known skills as string ready to be included to the context."
   `((WAIT ,#'gptel-agent--indicate-wait
           ,#'gptel--handle-wait)
     (TOOL ,#'gptel-agent--indicate-tool-call
-          ,#'gptel--handle-tool-use))
+          ,#'gptel--handle-tool-use)
+    (TRET ,#'gptel--handle-tool-result))
   "See `gptel-request--handlers'.")
 
 (defun gptel-agent--task-preview-setup (arg-values _info)
