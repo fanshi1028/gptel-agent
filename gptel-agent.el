@@ -429,7 +429,8 @@ Signals an error if:
                (body-start (save-excursion
                              (goto-char (cdr prop-range))
                              (forward-line 1) ; Move past the :END: line
-                             (while (looking-at-p "^\\s-*$") (forward-line 1))
+                             (while (and (not (eobp)) (looking-at-p "^\\s-*$"))
+                               (forward-line 1))
                              (point))))
 
           ;; Process each property
