@@ -591,9 +591,9 @@ diagnostics."
 (defun gptel-agent--edit-files-preview-setup (arg-values _info)
   "Insert tool call preview for ARG-VALUES for \"Edit\" tool."
   (pcase-let ((from (point)) (files-affected) (description)
-              (`(,path ,old-str ,new-str-or-diff ,diffp) arg-values))
+              (`(,path ,new-str-or-diff ,old-str) arg-values))
 
-    (if (and diffp (not (eq diffp :json-false)))
+    (if (or (not old-str) (string= old-str ""))
         (progn                          ;Patch
           (insert new-str-or-diff)
           (save-excursion
@@ -608,7 +608,7 @@ diagnostics."
           (setq description "Patch")
           (require 'diff-mode)
           (gptel-agent--fontify-block 'diff-mode from (point)))
-      (when old-str                     ;Text replacement
+      (progn                     ;Text replacement
         (push path files-affected)
         (setq description "ReplaceIn")
         (insert
